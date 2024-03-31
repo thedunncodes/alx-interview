@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-'''A script for parsing HTTP request logs.
+'''Script for parsing HTTP request logs
 '''
 import re
 import signal
