@@ -1,2 +1,1 @@
 # Alx interview
-# N Queens
