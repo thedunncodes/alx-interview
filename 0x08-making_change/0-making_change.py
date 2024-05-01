@@ -28,7 +28,7 @@ def makeChange(coins, total):
         - Num of possible coins that can be summed up to meet
         'total'
     """
-    if total == 0:
+    if total <= 0:
         return 0
     if coins is None:
         return -1
@@ -52,4 +52,3 @@ def makeChange(coins, total):
 
         least_coins_num += 1
 
-    return least_coins_num
