@@ -30,8 +30,6 @@ def makeChange(coins, total):
     """
     if total <= 0:
         return 0
-    if coins is None:
-        return -1
     sorted_coins = sorted(coins, reverse=True)
 
     sum_to_meet = sorted_coins.pop(0)
@@ -51,4 +49,3 @@ def makeChange(coins, total):
             sum_to_meet = iter_sum
 
         least_coins_num += 1
-
