@@ -9,15 +9,9 @@ def sum_iterator(coin_value, total, iter_value=None):
         - sum of possibles coins
     """
     if coin_value < total:
-        if iter_value:
-            new_sum = coin_value + iter_value
-        else:
-            new_sum = coin_value + coin_value
+        new_sum = coin_value + iter_value
         if new_sum > total:
-            if iter_value:
-                new_sum = new_sum - iter_value
-            else:
-                return new_sum - coin_value
+            new_sum = new_sum - iter_value
 
     return new_sum
 
@@ -30,22 +24,26 @@ def makeChange(coins, total):
     """
     if total <= 0:
         return 0
+    if not coins:
+        return -1
     sorted_coins = sorted(coins, reverse=True)
 
     sum_to_meet = sorted_coins.pop(0)
     least_coins_num = 1
-    new_iter_value = None
-    while sum_to_meet < total:
-        iter_sum = sum_iterator(sum_to_meet, total, new_iter_value)
-        if sum_to_meet == iter_sum:
+    meet_sum = sum_to_meet
+
+    while meet_sum < total:
+        meet_sum = meet_sum + sum_to_meet
+        if meet_sum > total:
+            meet_sum = meet_sum - sum_to_meet
             try:
-                new_iter_value = sorted_coins.pop(0)
+                sum_to_meet = sorted_coins.pop(0)
             except IndexError:
                 return -1
-            iter_sum = sum_iterator(sum_to_meet, total, new_iter_value)
-            sum_to_meet = iter_sum
-        else:
-            iter_sum = sum_iterator(sum_to_meet, total, new_iter_value)
-            sum_to_meet = iter_sum
+            meet_sum = sum_iterator(meet_sum, total, sum_to_meet)
 
         least_coins_num += 1
+    if not meet_sum == total:
+        return -1
+
+    return least_coins_num
