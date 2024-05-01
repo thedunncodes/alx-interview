@@ -1,49 +1,25 @@
 #!/usr/bin/python3
-""" Make change Module
+""" Make change
 """
 
 
 def makeChange(coins, total):
-    """ Make change function
-    Return:
-        - Num of possible coins that can be summed up to meet
-        'total'
+    """Returns the fewest number of coins needed to meet a given
+    amount total when given a pile of coins of different values.
     """
     if total <= 0:
         return 0
-    if not coins:
-        return -1
+    rem = total
+    coins_count = 0
+    coin_idx = 0
     sorted_coins = sorted(coins, reverse=True)
-
-    coin_value = sorted_coins.pop(0)
-    least_coins_num = 0
-    meet_sum = 0
-    control_count = 0
-
-    while True:
-        if coin_value > total:
-            coin_value = sorted_coins.pop(0)
-        if coin_value < total:
-            if meet_sum < total:
-                meet_sum += coin_value
-            if meet_sum > total:
-                meet_sum -= coin_value
-                try:
-                    coin_value = sorted_coins.pop(0)
-                except IndexError:
-                    return -1
-                meet_sum += coin_value
-                control_count += 1
-            least_coins_num += 1
-        if control_count >= 2:
-            least_coins_num -= 1
-        if meet_sum == total:
-            break
-        if coin_value == total:
-            least_coins_num += 1
-            return least_coins_num
-
-    if not meet_sum == total:
-        return -1
-
-    return least_coins_num
+    n = len(coins)
+    while rem > 0:
+        if coin_idx >= n:
+            return -1
+        if rem - sorted_coins[coin_idx] >= 0:
+            rem -= sorted_coins[coin_idx]
+            coins_count += 1
+        else:
+            coin_idx += 1
+    return coins_count
