@@ -3,19 +3,6 @@
 """
 
 
-def sum_iterator(coin_value, total, iter_value=None):
-    """ Sums up possibilities
-    Return:
-        - sum of possibles coins
-    """
-    if coin_value < total:
-        new_sum = coin_value + iter_value
-        if new_sum > total:
-            new_sum = new_sum - iter_value
-
-    return new_sum
-
-
 def makeChange(coins, total):
     """ Make change function
     Return:
@@ -28,21 +15,34 @@ def makeChange(coins, total):
         return -1
     sorted_coins = sorted(coins, reverse=True)
 
-    sum_to_meet = sorted_coins.pop(0)
-    least_coins_num = 1
-    meet_sum = sum_to_meet
+    coin_value = sorted_coins.pop(0)
+    least_coins_num = 0
+    meet_sum = 0
+    control_count = 0
 
-    while meet_sum < total:
-        meet_sum = meet_sum + sum_to_meet
-        if meet_sum > total:
-            meet_sum = meet_sum - sum_to_meet
-            try:
-                sum_to_meet = sorted_coins.pop(0)
-            except IndexError:
-                return -1
-            meet_sum = sum_iterator(meet_sum, total, sum_to_meet)
+    while True:
+        if coin_value > total:
+            coin_value = sorted_coins.pop(0)
+        if coin_value < total:
+            if meet_sum < total:
+                meet_sum += coin_value
+            if meet_sum > total:
+                meet_sum -= coin_value
+                try:
+                    coin_value = sorted_coins.pop(0)
+                except IndexError:
+                    return -1
+                meet_sum += coin_value
+                control_count += 1
+            least_coins_num += 1
+        if control_count >= 2:
+            least_coins_num -= 1
+        if meet_sum == total:
+            break
+        if coin_value == total:
+            least_coins_num += 1
+            return least_coins_num
 
-        least_coins_num += 1
     if not meet_sum == total:
         return -1
 
