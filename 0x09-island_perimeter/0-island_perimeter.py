@@ -13,6 +13,8 @@ def island_perimeter(grid):
         Perimeter of land area
     '''
 
+    if type(grid) != list:
+        return 0
     perimeter = 0
     for i in range(len(grid)):
         for j in range(len(grid[i])):
