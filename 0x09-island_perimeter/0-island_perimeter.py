@@ -13,9 +13,9 @@ def island_perimeter(grid):
         Perimeter of land area
     '''
 
+    perimeter = 0
     if type(grid) != list:
         return 0
-    perimeter = 0
     for i in range(len(grid)):
         for j in range(len(grid[i])):
             if grid[i][j] == 1:
@@ -27,7 +27,11 @@ def island_perimeter(grid):
                         points += 1
                 if prev_column >= 0:
                     if prev_row >= 0:
-                        if grid[prev_row][j] == 1:
+                        if prev_row < len(grid[i]):
+                            for k in range(len(grid[prev_row])):
+                                if grid[prev_row][k] == 1 and k == j:
+                                    points += 1
+                        elif grid[prev_row][j] == 1:
                             points += 1
                 perimeter += 4 - (2 * points)
     return perimeter
